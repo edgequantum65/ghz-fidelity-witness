@@ -1,5 +1,7 @@
 name: tests
 on: [push, pull_request]
+permissions:
+  contents: read
 jobs:
   tests:
     runs-on: ubuntu-latest
@@ -8,5 +10,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          cache: pip
       - run: pip install -r requirements.txt
       - run: python -m unittest -v test_reference_cases
+      - name: Published numbers regenerate identically from the committed code
+        run: |
+          python ghz_witness.py
+          git diff --exit-code RESULTS.md
