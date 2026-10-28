@@ -4,7 +4,7 @@
 
 **Proving entanglement by measurement, not by looking at "000" and "111".**
 
-Seeing only `000` and `111` in the computational basis proves nothing. A classical 50/50 mixture of `|000>` and `|111>` gives exactly the same counts. That mixture is now one of the blank controls (an ancilla qubit in `|+>` copied by CNOT onto the qubits, then ignored): it must never be declared entangled. The tool also measures X/Y correlations, in two ways:
+Seeing only `000` and `111` in the computational basis proves nothing. A classical 50/50 mixture of `|000>` and `|111>` gives exactly the same counts. That mixture is now one of the blank controls (an ancilla qubit in `|+>` copied by CNOT onto the qubits, then ignored), and it is not declared entangled. The tool also measures X/Y correlations, in two ways:
 
 **Fidelity** F with the ideal Bell or GHZ-3 state, from the stabilizer expansion of the projector:
 
@@ -28,22 +28,40 @@ Otherwise the verdict is **NOT DEMONSTRATED**, which is not a proof of separabil
 
 Edge Quantum 65 — R&D lab, Lannemezan, France. Rule of the lab: nothing is published that was not measured.
 
-## Result (Qiskit Aer, 20 000 shots per setting, seed 1234)
+## Results (Qiskit Aer, 20 000 shots per setting, seed 1234)
+
+**Fidelity, v2.** Each measurement setting has its own simulator seed, and σ is exact: per-setting sample variance (covariances between terms sharing a setting kept), settings added in quadrature.
 
 | Case | F | 3σ | Verdict |
 |---|---:|---:|---|
 | E1 Bell, ideal | 1.0000 | 0.0000 | ENTANGLED |
 | E2 GHZ-3, ideal | 1.0000 | 0.0000 | ENTANGLED |
-| E3 GHZ-3, noise p=0.02 | 0.9161 | 0.0075 | ENTANGLED |
-| E4 GHZ-3, noise p=0.30 | 0.3641 | 0.0171 | NOT DEMONSTRATED |
-| Control: product state 000 | 0.4995 | 0.0106 | NOT DEMONSTRATED |
-| Control: product state +++ | 0.2500 | 0.0159 | NOT DEMONSTRATED |
+| E3 GHZ-3, noise p=0.02 | 0.9171 | 0.0032 | ENTANGLED |
+| E4 GHZ-3, noise p=0.30 | 0.3678 | 0.0073 | NOT DEMONSTRATED |
+| R1 GHZ-3, readout error | 0.8934 | 0.0039 | ENTANGLED |
+| Control: product state 000 | 0.5014 | 0.0053 | NOT DEMONSTRATED |
+| Control: product state +++ | 0.2507 | 0.0065 | NOT DEMONSTRATED |
+| Control: mixture of 00 and 11 | 0.5022 | 0.0075 | NOT DEMONSTRATED |
+| Control: mixture of 000 and 111 | 0.4986 | 0.0053 | NOT DEMONSTRATED |
 
-All six expectations written before the run in [CRITERIA.md](CRITERIA.md) are met. The two product states are blank controls: they must never be declared entangled, and they are not. The product state `000` sits right at the 0.5 boundary, which is why the rule asks for a 3σ margin.
+v1 (same seed for every setting, σ added linearly) is kept and still regenerated digit for digit in [RESULTS.md](RESULTS.md). It had a flaw: with one seed for all settings, the settings were not independent experiments (for `000`, the counts of XYY, YXY and YYX were identical). The v2 3σ is smaller than the v1 one in every case with shot noise (both are 0 for the ideal states).
 
-v2 results (independent seed per setting, exact σ, mixture control, readout error, two-setting witness for n = 3 to 8): run pending, expectations fixed in CRITERIA.md v2.
+**Two-setting witness.** ⟨W⟩ ± 3σ. Bold: GENUINELY ENTANGLED. Depolarizing error p after every gate.
 
-**Limits.** This is still a classical simulation on a laptop, not quantum hardware. No real device has been run yet: that needs an IBM Quantum account and is the next step. The noise models (depolarizing error on every gate, readout error P(1|0) = 0.02, P(0|1) = 0.03) are textbook models, not a real device. States exactly on the boundary (`000`, the mixture) are wrongly called entangled with probability about 0.13 % per case: that is the price of a one-sided 3σ rule.
+| n | Ideal | p = 0.02 | p = 0.10 |
+|---:|---:|---:|---:|
+| 3 | **−1.0000 ± 0.0000** | **−0.8364 ± 0.0119** | **−0.2883 ± 0.0227** |
+| 4 | **−1.0000 ± 0.0000** | **−0.7749 ± 0.0138** | **−0.0604 ± 0.0253** |
+| 5 | **−1.0000 ± 0.0000** | **−0.7134 ± 0.0154** | +0.1545 ± 0.0271 |
+| 6 | **−1.0000 ± 0.0000** | **−0.6502 ± 0.0169** | +0.3382 ± 0.0283 |
+| 7 | **−1.0000 ± 0.0000** | **−0.5838 ± 0.0183** | +0.5020 ± 0.0290 |
+| 8 | **−1.0000 ± 0.0000** | **−0.5291 ± 0.0193** | +0.6396 ± 0.0295 |
+
+More qubits means more CNOTs, so the witness degrades with n: at p = 0.10 it is lost from n = 5 on, as predicted before the run. GHZ-8 with readout error only: **−0.3036 ± 0.0227**. Blank controls `|0…0>`, `|+…+>` and the mixture, for n = 3, 5 and 8: all NOT DEMONSTRATED, each within 3σ of its exact value (0, 1 − 2^(2−n), 0). Full tables: [RESULTS.md](RESULTS.md).
+
+All expectations written before the runs in [CRITERIA.md](CRITERIA.md) are met (v1: 6 of 6, v2: 13 of 13).
+
+**Limits.** This is still a classical simulation on a laptop, not quantum hardware. No real device has been run yet: that needs an IBM Quantum account and is the next step. The noise models (depolarizing error on every gate, readout error P(1|0) = 0.02, P(0|1) = 0.03) are textbook models, not a real device. States exactly on the boundary (`000`, the mixture) are wrongly called entangled with probability about 0.13 % per case: that is the price of a one-sided 3σ rule. Inside a case the settings are independent, but every case uses the same base seed, so cases are not independent of each other: at p = 0.10 the measured P(all equal) sits 2 to 3σ below the hand model for n = 5 to 8, all in the same direction (still inside the tolerance fixed in advance).
 
 ## Run
 

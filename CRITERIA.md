@@ -53,3 +53,23 @@ Nothing above this line is changed. v1 stays as it was, with its outcomes. This 
 - W6. Witness blank controls for n = 3, 5, 8: |0…0> and the mixture give |⟨W⟩| ≤ 3σ and NOT DEMONSTRATED; |+…+> gives |⟨W⟩ − (1 − 2^(2−n))| ≤ 3σ (0.5, 0.875, 0.984375) and NOT DEMONSTRATED.
 
 All v2 results are published whatever they show. A failed expectation is reported as failed; the criteria are not changed after the run.
+
+## v2 outcomes, recorded after the v2 run (2026-10-28)
+
+Run of the committed code (`python ghz_witness.py`, numbers in RESULTS.md). Nothing above this line was changed after the run.
+
+- V1. **Passed.** The six v1 rows are regenerated digit for digit.
+- V2. **Passed.** E1 and E2: F = 1.0000, 3σ = 0.0000, ENTANGLED.
+- V3. **Passed.** E3: F = 0.9171 (|F − 0.9161| = 0.0010), ENTANGLED. E4: F = 0.3678 (|F − 0.3641| = 0.0037), NOT DEMONSTRATED.
+- V4. **Passed.** |000>: 0.5014, 3σ 0.0053; mixture n = 2: 0.5022, 3σ 0.0075; mixture n = 3: 0.4986, 3σ 0.0053; |+++>: 0.2507 (target 0.25), 3σ 0.0065. All NOT DEMONSTRATED.
+- V5. **Passed.** R1: F = 0.8934 (|F − 0.892| = 0.0014), ENTANGLED.
+- V6. **Passed.** v2 3σ vs v1 3σ: E1 0 vs 0, E2 0 vs 0, E3 0.0032 vs 0.0075, E4 0.0073 vs 0.0171, |000> 0.0053 vs 0.0106, |+++> 0.0065 vs 0.0159.
+- V7. **Passed.** Seeds reported by Aer: 1234, 3347, 5460, 7573, 9686 (5 settings), distinct. For |000>, the XYY, YXY and YYX counts differ from each other.
+- W1. **Passed.** Ideal GHZ, n = 3…8: ⟨W⟩ = −1.0000, 3σ = 0.0000, GENUINELY ENTANGLED.
+- W2. **Passed.** p = 0.02, n = 3…8: −0.8364, −0.7749, −0.7134, −0.6502, −0.5838, −0.5291, all GENUINELY ENTANGLED; largest gap to the model 0.0062 (n = 7).
+- W3. **Passed.** p = 0.10, n = 3…8: −0.2883, −0.0604 (GENUINELY ENTANGLED), +0.1545, +0.3382, +0.5020, +0.6396 (NOT DEMONSTRATED); gaps to the model 0.0027, 0.0004, 0.0115, 0.0162, 0.0230, 0.0216, all within 0.03.
+- W4. **Passed.** ⟨W⟩ increases strictly with n at both noise levels.
+- W5. **Passed.** GHZ-8 with readout error: ⟨W⟩ = −0.3036 (|gap| = 0.0056), 3σ 0.0227, GENUINELY ENTANGLED.
+- W6. **Passed.** |0…0>: −0.0021, +0.0073, −0.0054; mixture: +0.0144, −0.0004, +0.0009 (3σ 0.0212 each); |+…+>: +0.4988, +0.8751, +0.9822 (targets 0.5, 0.875, 0.984375; 3σ 0.0184, 0.0103, 0.0040). All NOT DEMONSTRATED.
+
+**Observation, not an expectation.** At p = 0.10 the measured P(all equal) sits below the hand model by 2.3σ to 3.2σ for n = 5…8, always in the same direction. Every case uses the same base seed, so the Z…Z setting has the seed 3347 in every witness case and the cases are not independent of each other (the settings inside a case are). The gaps stay inside the tolerance fixed above. A later version should give each case its own base seed; this was not pre-registered for v2, so v2 is published as run.
