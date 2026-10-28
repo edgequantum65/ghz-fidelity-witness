@@ -1,5 +1,7 @@
 # ghz-fidelity-witness
 
+[![tests](https://github.com/edgequantum65/ghz-fidelity-witness/actions/workflows/tests.yml/badge.svg)](https://github.com/edgequantum65/ghz-fidelity-witness/actions/workflows/tests.yml)
+
 **Proving entanglement by measurement, not by looking at "000" and "111".**
 
 Seeing only `000` and `111` in the computational basis proves nothing. A classical 50/50 mixture of `|000>` and `|111>` gives exactly the same counts. This tool also measures X/Y correlations and estimates the fidelity F with the ideal Bell or GHZ state, using the stabilizer expansion of the projector:
