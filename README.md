@@ -24,7 +24,7 @@ W   = 3·I − 2·[ (X…X + I)/2 + Π_{k=2..n} (Z_{k−1}Z_k + I)/2 ]
 
 **GENUINELY ENTANGLED** only if ⟨W⟩ + 3σ < 0. Two settings for any n, instead of 2^(n−1)+1 for the full expansion (129 for n = 8).
 
-Otherwise the verdict is **NOT DEMONSTRATED**, which is not a proof of separability. The rules and the expected results were written in [CRITERIA.md](CRITERIA.md) and committed before each run (v1, then v2: the git history shows the order).
+Otherwise the verdict is **NOT DEMONSTRATED**, which is not a proof of separability. The rules and the expected results were written in [CRITERIA.md](CRITERIA.md) and written before each run. For v2 the git history shows the order (criteria committed alone, before the code and the results). v1's criteria were committed together with its results, so for v1 the order rests on the date written in CRITERIA.md. One v2 control was not unknown beforehand: the mixture had been run once with the v1 method (F = 0.5036, NOT DEMONSTRATED).
 
 Edge Quantum 65 — R&D lab, Lannemezan, France. Rule of the lab: nothing is published that was not measured.
 
@@ -44,7 +44,7 @@ Edge Quantum 65 — R&D lab, Lannemezan, France. Rule of the lab: nothing is pub
 | Control: mixture of 00 and 11 | 0.5022 | 0.0075 | NOT DEMONSTRATED |
 | Control: mixture of 000 and 111 | 0.4986 | 0.0053 | NOT DEMONSTRATED |
 
-v1 (same seed for every setting, σ added linearly) is kept and still regenerated digit for digit in [RESULTS.md](RESULTS.md). It had a flaw: with one seed for all settings, the settings were not independent experiments (for `000`, the counts of XYY, YXY and YYX were identical). The v2 3σ is smaller than the v1 one in every case with shot noise (both are 0 for the ideal states).
+v1 (same seed for every setting, σ added linearly) is kept and still regenerated digit for digit in [RESULTS.md](RESULTS.md). It had a flaw: with one seed for all settings, the settings were not independent experiments (for `000`, the counts of XYY, YXY and YYX were identical). The v2 3σ is smaller than the v1 one in every case with shot noise, as it must be by construction (both are 0 for the ideal states). The v1 `+++` row (0.2500) is itself an artefact of the shared seed: rerun with 300 seeds, v1 gives exactly 0.2500 every time, with zero spread.
 
 **Two-setting witness.** ⟨W⟩ ± 3σ. Bold: GENUINELY ENTANGLED. Depolarizing error p after every gate.
 
@@ -59,9 +59,9 @@ v1 (same seed for every setting, σ added linearly) is kept and still regenerate
 
 More qubits means more CNOTs, so the witness degrades with n: at p = 0.10 it is lost from n = 5 on, as predicted before the run. GHZ-8 with readout error only: **−0.3036 ± 0.0227**. Blank controls `|0…0>`, `|+…+>` and the mixture, for n = 3, 5 and 8: all NOT DEMONSTRATED, each within 3σ of its exact value (0, 1 − 2^(2−n), 0). Full tables: [RESULTS.md](RESULTS.md).
 
-All expectations written before the runs in [CRITERIA.md](CRITERIA.md) are met (v1: 6 of 6, v2: 13 of 13).
+All expectations written before the runs in [CRITERIA.md](CRITERIA.md) are met (v1: 6 of 6, v2: 13 of 13). Read this with care: several v2 expectations could not fail (ideal states, σ v2 ≤ σ v1) or had wide tolerances (E3, E4, R1: 7 to 19 σ). The checks that could really discriminate are the witness verdicts at p = 0.10 (±0.03, about 3σ), the readout case and the two-sided 3σ blank controls.
 
-**Limits.** This is still a classical simulation on a laptop, not quantum hardware. No real device has been run yet: that needs an IBM Quantum account and is the next step. The noise models (depolarizing error on every gate, readout error P(1|0) = 0.02, P(0|1) = 0.03) are textbook models, not a real device. States exactly on the boundary (`000`, the mixture) are wrongly called entangled with probability about 0.13 % per case: that is the price of a one-sided 3σ rule. Inside a case the settings are independent, but every case uses the same base seed, so cases are not independent of each other: at p = 0.10 the measured P(all equal) sits 2 to 3σ below the hand model for n = 5 to 8, all in the same direction (still inside the tolerance fixed in advance).
+**Limits.** This is still a classical simulation on a laptop, not quantum hardware. No real device has been run yet: that needs an IBM Quantum account and is the next step. The noise models (depolarizing error on every gate, readout error P(1|0) = 0.02, P(0|1) = 0.03) are textbook models, not a real device. States exactly on the boundary (`000`, the mixture) are wrongly called entangled with probability about 0.13 % per case: that is the price of a one-sided 3σ rule. Inside a case the settings are independent, but every case uses the same base seed, so cases are not independent of each other: at p = 0.10 the measured P(all equal) sits 2.3 to 3.2σ below the hand model (which equals the exact density-matrix value to 4 decimals) for n = 5 to 8, all in the same direction (still inside the tolerance fixed in advance).
 
 ## Run
 
@@ -75,6 +75,6 @@ On every push, CI runs the tests, reruns `ghz_witness.py` and checks that `RESUL
 
 ---
 
-**FR** — Voir seulement « 000 » et « 111 » ne prouve pas l'intrication : un simple mélange classique donne les mêmes comptes, et ce mélange fait maintenant partie des témoins. L'outil mesure aussi les corrélations X/Y : fidélité à l'état GHZ (verdict « intriqué » seulement si F − 3σ > 0,5) et témoin de Tóth et Gühne à deux réglages pour n qubits (verdict seulement si ⟨W⟩ + 3σ < 0). Les états produits et le mélange servent de témoins et ne sont jamais déclarés intriqués. Critères écrits et déposés avant chaque essai. Simulation classique sur PC : aucun processeur quantique réel n'a encore été utilisé, c'est la prochaine étape.
+**FR** — Voir seulement « 000 » et « 111 » ne prouve pas l'intrication : un simple mélange classique donne les mêmes comptes, et ce mélange fait maintenant partie des témoins. L'outil mesure aussi les corrélations X/Y : fidélité à l'état GHZ (verdict « intriqué » seulement si F − 3σ > 0,5) et témoin de Tóth et Gühne à deux réglages pour n qubits (verdict seulement si ⟨W⟩ + 3σ < 0). Les états produits et le mélange servent de témoins et n'ont été déclarés intriqués dans aucun essai (risque d'environ 0,13 % par cas à la frontière). Critères écrits avant chaque essai ; pour la v2, l'historique git le prouve (critères déposés seuls, avant le code et les résultats). Simulation classique sur PC : aucun processeur quantique réel n'a encore été utilisé, c'est la prochaine étape.
 
 License: MIT.
